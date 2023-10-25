@@ -1,0 +1,99 @@
+let canvas = document.querySelector("canvas");
+let context = canvas.getContext('2d');
+let scoreshow = document.getElementById('score');
+
+let birdimg = new Image();
+let hinhnenchinh = new Image();
+let ongtren = new Image();
+let ongduoi = new Image();
+
+birdimg.src = "bird.png";
+hinhnenchinh.src = "nenchinh.png";
+ongtren.src = "ongtren.png";
+ongduoi.src = "ongduoi.png";
+let score = 0;
+let khoangcachhaiong = 140;
+let khoangcachdenongduoi = 0;
+
+let bird = {
+    x: canvas.width / 5,
+    y: canvas.height / 2
+}
+
+let ong = [];
+ong[0] = {
+    x: canvas.width,
+    y: 0
+}
+
+function run() {
+    context.drawImage(hinhnenchinh, 0, 0);
+    context.drawImage(birdimg, bird.x, bird.y);
+
+    for (let i = 0; i < ong.length; i++) {
+        khoangcachdenongduoi = ongtren.height + khoangcachhaiong;
+        context.drawImage(ongtren, ong[i].x, ong[i].y);
+        context.drawImage(ongduoi, ong[i].x, ong[i].y + khoangcachdenongduoi);
+        ong[i].x -= 5;
+
+        if (ong[i].x === canvas.width / 2) {
+            ong.push({
+                x: canvas.width,
+                y: Math.floor(Math.random() * ongtren.height) - ongtren.height
+            });
+        }
+
+        if (ong[i].x === 0) ong.splice(0, 1);
+
+        if (ong[i].x === bird.x) score++;
+
+        if (
+            bird.y + birdimg.height >= canvas.height ||
+            (bird.x + birdimg.width >= ong[i].x && bird.x <= ong[i].x + ongtren.width &&
+                (bird.y <= ong[i].y + ongtren.height || bird.y + birdimg.height >= ong[i].y + khoangcachdenongduoi))
+        ) {
+            confirm("bạn đã thua: \n"  + score +  " là điểm của bạn");
+            // if (confirm === true) {
+            //     location.reload()
+            // }
+            window.location.reload();
+            return;
+        }
+
+    }
+    scoreshow.innerHTML = "score: " + score;
+    bird.y += 3;
+    requestAnimationFrame(run);
+}
+
+document.addEventListener("keydown", function () {
+    bird.y -= 60;
+});
+
+function imagesLoaded(imgs, callback) {
+    let loadedCount = 0;
+    imgs.forEach((img) => {
+        if (img.complete) {
+            loadedCount++;
+        } else {
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === imgs.length) {
+                    callback();
+                }
+            };
+        }
+    });
+
+    if (loadedCount === imgs.length) {
+        callback();
+    }
+}
+
+imagesLoaded([birdimg, hinhnenchinh, ongtren, ongduoi], function () {
+    bird = {
+        x: canvas.width / 5,
+        y: canvas.height / 2
+    }
+    run();
+});
