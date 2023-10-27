@@ -1,74 +1,28 @@
-// let canvas = document.getElementById('gamezone');
-// let context = canvas.getContext('2d');
-// let scoreshow = document.getElementById('score');
-//
-// let birdimg = new Image();
-// let hinhnenchinh = new Image();
-// let ongtren = new Image();
-// let ongduoi = new Image();
-// birdimg.src = "bird.png";
-// hinhnenchinh.src = "nenchinh.png";
-// ongtren.src = "ongtren.png";
-// ongduoi.src = "ongduoi.png";
-//
-// let score = 0;
-// let khoangcachhaiong = 150;
-// let khoangcachdenongduoi;
-// let bird = {
-//     x: hinhnenchinh.width / 5,
-//     y: hinhnenchinh.height / 2
-// }
-// let ong = [];
-// ong[0] = {
-//     x: canvas.width,
-//     y: 0
-// }
-//
-// function run() {
-//     context.drawImage(hinhnenchinh, 0, 0);
-//     context.drawImage(birdimg, bird.x, bird.y);
-//
-//     for (let i = 0; i < ong.length; i++) {
-//         khoangcachdenongduoi = ongtren.height + khoangcachhaiong;
-//         context.drawImage(ongtren, ong[i].x, ong[i].y);
-//         context.drawImage(ongduoi, ong[i].x, ong[i].y + khoangcachdenongduoi);
-//         ong[i].x -= 5;
-//         if (ong[i].x === canvas.width / 2) {
-//             ong.push({
-//                 x: canvas.width,
-//                 y: Math.floor(Math.random() * ongtren.height) - ongtren.height
-//             })
-//         }
-//         if (ong[i].x === 0) ong.splice(0, 1);
-//         if (ong[i].x === bird.x) score++;
-//         if (bird.y + birdimg.height === canvas.height ||
-//             bird.x + birdimg.width >= ong[i].x && bird.x <= ong[i].x + ongtren.width
-//             && (bird.y <= ong[i].y + ongtren.height ||
-//                 bird.y + birdimg.height >= ong[i].y + khoangcachdenongduoi)
-//         ) {
-//             confirm("Bạn đã thua \n" + score + " là điểm của bạn");
-//             if (confirm === true) {
-//                 window.location.reload()
-//             }
-//             window.location.reload();
-//
-//         }
-//     }
-//
-//
-//     scoreshow.innerHTML = "score: " + score;
-//     bird.y += 3;
-//     requestAnimationFrame(run);
-// }
-//
-// document.addEventListener("keydown", function () {
-//     bird.y -= 60;
-// })
-// run();
+let canvas = document.getElementById('gamezone');
+let context = canvas.getContext('2d');
+let scoreshow = document.getElementById('score');
 
+let birdimg = new Image();
+let hinhnenchinh = new Image();
+let ongtren = new Image();
+let ongduoi = new Image();
+birdimg.src = "bird.png";
+hinhnenchinh.src = "nenchinh.png";
+ongtren.src = "ongtren.png";
+ongduoi.src = "ongduoi.png";
 
-
-let isGameOver = false;  // New variable to track the game status
+let score = 0;
+let khoangcachhaiong = 150;
+let khoangcachdenongduoi;
+let bird = {
+    x: hinhnenchinh.width / 5,
+    y: hinhnenchinh.height / 2
+}
+let ong = [];
+ong[0] = {
+    x: canvas.width,
+    y: 0
+}
 
 function run() {
     context.drawImage(hinhnenchinh, 0, 0);
@@ -83,7 +37,7 @@ function run() {
             ong.push({
                 x: canvas.width,
                 y: Math.floor(Math.random() * ongtren.height) - ongtren.height
-            });
+            })
         }
         if (ong[i].x === 0) ong.splice(0, 1);
         if (ong[i].x === bird.x) score++;
@@ -92,35 +46,27 @@ function run() {
             && (bird.y <= ong[i].y + ongtren.height ||
                 bird.y + birdimg.height >= ong[i].y + khoangcachdenongduoi)
         ) {
-            gameOver();  // Call the new gameOver function
-            return;      // Exit from the run function
+            confirm("Bạn đã thua \n" + score + " là điểm của bạn");
+            if (confirm === true) {
+                window.location.reload()
+            }
+            window.location.reload();
+
         }
     }
+
 
     scoreshow.innerHTML = "score: " + score;
     bird.y += 3;
-    if (!isGameOver) {   // Only request next animation frame if game is not over
-        requestAnimationFrame(run);
-    }
+    requestAnimationFrame(run);
 }
 
-function gameOver() {
-    isGameOver = true;  // Set the game status to over
-    let restart = confirm("Bạn đã thua \n" + score + " là điểm của bạn. Bạn muốn chơi lại không?");
-    if (restart) {
-        window.location.reload();
-    }
-}
-
-document.addEventListener("keydown", function (event) {
-    if (event.key === " ") {  // Check if space key is pressed
-        if (isGameOver) {
-            window.location.reload();
-        } else {
-            bird.y -= 60;
-        }
-    }
-});
-
+document.addEventListener("keydown", function () {
+    bird.y -= 60;
+})
 run();
+
+
+
+
 
