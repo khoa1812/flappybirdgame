@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url("background.png");
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #score {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<canvas id="gamezone" width="900" height="500"></canvas>
-<p id="score">score: 0</p>
-</body>
+<div class="container">
+    <canvas id="gamezone" width="900" height="500"></canvas>
+    <p id="score">score: 0</p>
+</div>
 <script src="main.js"></script>
+</body>
 </html>
+
+
 
 
